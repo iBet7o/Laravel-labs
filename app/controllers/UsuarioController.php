@@ -4,9 +4,30 @@ class UsuarioController extends BaseController
 {
     public function mostrar()
     {
-        $usuarios = Usuario::all();
+        $QueryBuilder   = DB::table('usuarios');
 
-        return View::make('usuario.lista', array(
+        if (Input::has('search.id')) {
+            $QueryBuilder
+                ->where('id', '=', Input::get('search.id'))
+            ;
+        }
+
+        if (Input::has('search.nombre')) {
+            $QueryBuilder
+                ->where('nombre', 'LIKE', sprintf('%%%s%%', Input::get('search.nombre')))
+            ;
+        }
+
+        if (Input::has('search.apellido')) {
+            $QueryBuilder
+                ->where('apellido', 'LIKE', sprintf('%%%s%%', Input::get('search.apellido')))
+            ;
+        }
+
+        $usuarios   = $QueryBuilder->get();
+        $view       = !Request::ajax() ? 'usuario.lista' : 'usuario.lista_ajax';
+
+        return View::make($view, array(
             'usuarios' => $usuarios,
         ));
     }

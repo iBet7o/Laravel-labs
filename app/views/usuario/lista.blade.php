@@ -14,21 +14,33 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped table-bordered table-hover">
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th></th>
-                </tr>
-                @foreach ($usuarios as $usuario)
+            <table class="table table-striped table-bordered table-hover" data-role="table-list">
+                <thead>
                     <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->nombre }}</td>
-                        <td>{{ $usuario->apellido }}</td>
-                        <td>{{ HTML::linkRoute('usuarios_ver', '[ detalle ]', [$usuario->id]) }}</td>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th></th>
                     </tr>
-                @endforeach
+                    <tr data-role="table-search" data-url="{{ route('usuarios') }}">
+                        <td>
+                            {{ Form::text('search[id]', null, ['size' => 5]) }}
+                        </td>
+                        <td>
+                            {{ Form::text('search[nombre]') }}
+                        </td>
+                        <td>
+                            {{ Form::text('search[apellido]') }}
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-default btn-sm center-block">
+                                <span class="glyphicon glyphicon-search"></span> Buscar
+                            </button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody data-role="table-body">
+                </tbody>
             </table>
         </div>
     </div>
